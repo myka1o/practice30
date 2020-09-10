@@ -21,7 +21,23 @@ const movieDB = {
         "Ла-ла лэнд",
         "Одержимость",
         "Скотт Пилигрим против..."
-    ]
+    ],
+    UpdMovList: function() {
+        let movieList = document.querySelectorAll('.promo__interactive-list');
+        movieList[0].innerHTML = '';
+
+        movieDB.movies.sort();
+        
+        movieDB.movies.forEach((film, i) => {
+            movieList[0].innerHTML += `
+            <li class="promo__interactive-item">${i + 1}: ${film}
+                <div class="delete"></div>
+            </li>
+            `;
+        });
+
+    }
+
 };
 
 let div_promo__adv_s = document.getElementsByClassName('promo__adv');
@@ -32,27 +48,31 @@ div_promo__adv_s[0].remove();
     div_promo__genre.innerText = "драма";
 });
 
-
 let class_promo__content_s = document.querySelectorAll('.promo__content');
 let class_promo__content_promo__bg_s = class_promo__content_s[0].querySelector('.promo__bg');
 class_promo__content_promo__bg_s.style.backgroundImage = "url('/img/bg.jpg')";
 
+movieDB.UpdMovList();
+//События
 
-let movieList = document.querySelectorAll('.promo__interactive-list');
+const btn = document.querySelector('button');
+const ClickAddMovie = (event) => {
+    event.preventDefault();
 
-//console.log(movieList[0].innerHTML);
+    const sslen = 21;
+    const input_adding__input = document.querySelector('.adding__input');
+    const movieName = input_adding__input.value.lenght <= sslen ? input_adding__input.value : input_adding__input.value.substr(0, sslen) + "...";
 
-movieList.forEach(item => {
-    //item.remove();
-});
-movieList[0].innerHTML = '';
+    movieDB.movies.push(movieName);
+    movieDB.UpdMovList();
+};
 
-movieDB.movies.sort();
+btn.addEventListener('click', ClickAddMovie);
 
-movieDB.movies.forEach((film, i) => {
-    movieList[0].innerHTML += `
-    <li class="promo__interactive-item">${i + 1}: ${film}
-        <div class="delete"></div>
-    </li>
-    `;
-});
+//Удаление из списка фильмов
+const promoInter_item = document.querySelector('.delete'); //'.promo__interactive-item');
+const ClickPromoInter_item = (event) => {
+    console.log(event);
+};
+promoInter_item.addEventListener('click', ClickPromoInter_item);
+
